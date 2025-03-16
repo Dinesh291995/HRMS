@@ -1,0 +1,12 @@
+# api/.htaccess
+
+# Enable URL rewriting
+RewriteEngine On
+
+# Set the base directory (adjust if your API is in a subdirectory)
+RewriteBase /api/
+
+# Route all requests to employees.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ employees.php?url=$1 [QSA,L]
