@@ -25,12 +25,12 @@ header("Content-Type: application/json");
 // Initialize the EmployeeController
 $employeeController = new EmployeeController();
 
-// Parse the URL from the query parameter
-$url = $_GET['url'] ?? '';
-$urlSegments = explode('/', trim($url, '/'));
+// Parse the request URI
+$requestUri = $_SERVER['REQUEST_URI'];
+$uriSegments = explode('/', trim($requestUri, '/'));
 
 // Extract the employee ID if present
-$employee_id = $urlSegments[0] ?? null;
+$employee_id = $uriSegments[2] ?? null;
 
 // Route requests based on HTTP method
 switch ($_SERVER['REQUEST_METHOD']) {
