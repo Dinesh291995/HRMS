@@ -1,5 +1,5 @@
 <?php
-// index.php
+// api/index.php
 
 require_once __DIR__ . '/../controllers/EmployeeController.php';
 
@@ -14,8 +14,8 @@ $employeeController = new EmployeeController();
 $uriSegments = explode('/', trim($requestUri, '/'));
 
 // Route requests
-if ($uriSegments[0] === 'employees') {
-    $employee_id = $uriSegments[1] ?? null;
+if ($uriSegments[0] === 'api' && $uriSegments[1] === 'employees') {
+    $employee_id = $uriSegments[2] ?? null;
 
     switch ($requestMethod) {
         case 'GET':
@@ -54,7 +54,6 @@ if ($uriSegments[0] === 'employees') {
             break;
     }
 
-    // Send the response
     echo json_encode($response);
 } else {
     http_response_code(404);
