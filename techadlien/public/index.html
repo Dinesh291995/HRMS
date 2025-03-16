@@ -152,7 +152,7 @@
     </div>
 
     <script>
-      const baseUrl = "http://tad.gamanrehabcenter.com/api"; // Updated API base URL
+      const baseUrl = "https://tad.gamanrehabcenter.com/api"; // Updated API base URL
 
       // Helper function to display API responses
       function displayResponse(elementId, data) {
@@ -163,79 +163,110 @@
         );
       }
 
+      // Helper function to handle API errors
+      async function handleResponse(response) {
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          return await response.json(); // Parse JSON response
+        } else {
+          const text = await response.text(); // Parse non-JSON response
+          throw new Error(text || "Unknown error occurred");
+        }
+      }
+
       // Create Employee
       async function createEmployee() {
-        const data = {
-          first_name: document.getElementById("createFirstName").value,
-          last_name: document.getElementById("createLastName").value,
-          email: document.getElementById("createEmail").value,
-          phone_number: document.getElementById("createPhone").value,
-          designation: document.getElementById("createDesignation").value,
-          department_id: document.getElementById("createDepartmentId").value,
-          manager_id: document.getElementById("createManagerId").value,
-          role_id: document.getElementById("createRoleId").value,
-          password_hash: document.getElementById("createPassword").value,
-        };
+        try {
+          const data = {
+            first_name: document.getElementById("createFirstName").value,
+            last_name: document.getElementById("createLastName").value,
+            email: document.getElementById("createEmail").value,
+            phone_number: document.getElementById("createPhone").value,
+            designation: document.getElementById("createDesignation").value,
+            department_id: document.getElementById("createDepartmentId").value,
+            manager_id: document.getElementById("createManagerId").value,
+            role_id: document.getElementById("createRoleId").value,
+            password_hash: document.getElementById("createPassword").value,
+          };
 
-        const response = await fetch(`${baseUrl}/employees`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
+          const response = await fetch(`${baseUrl}/employees`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
 
-        const result = await response.json();
-        displayResponse("createResponse", result);
+          const result = await handleResponse(response);
+          displayResponse("createResponse", result);
+        } catch (error) {
+          displayResponse("createResponse", { error: error.message });
+        }
       }
 
       // Get Employee by ID
       async function getEmployeeById() {
-        const employeeId = document.getElementById("getEmployeeId").value;
-        const response = await fetch(`${baseUrl}/employees/${employeeId}`);
-        const result = await response.json();
-        displayResponse("getResponse", result);
+        try {
+          const employeeId = document.getElementById("getEmployeeId").value;
+          const response = await fetch(`${baseUrl}/employees/${employeeId}`);
+          const result = await handleResponse(response);
+          displayResponse("getResponse", result);
+        } catch (error) {
+          displayResponse("getResponse", { error: error.message });
+        }
       }
 
       // Update Employee
       async function updateEmployee() {
-        const employeeId = document.getElementById("updateEmployeeId").value;
-        const data = {
-          first_name: document.getElementById("updateFirstName").value,
-          last_name: document.getElementById("updateLastName").value,
-          email: document.getElementById("updateEmail").value,
-          phone_number: document.getElementById("updatePhone").value,
-          designation: document.getElementById("updateDesignation").value,
-          department_id: document.getElementById("updateDepartmentId").value,
-          manager_id: document.getElementById("updateManagerId").value,
-          role_id: document.getElementById("updateRoleId").value,
-          password_hash: document.getElementById("updatePassword").value,
-        };
+        try {
+          const employeeId = document.getElementById("updateEmployeeId").value;
+          const data = {
+            first_name: document.getElementById("updateFirstName").value,
+            last_name: document.getElementById("updateLastName").value,
+            email: document.getElementById("updateEmail").value,
+            phone_number: document.getElementById("updatePhone").value,
+            designation: document.getElementById("updateDesignation").value,
+            department_id: document.getElementById("updateDepartmentId").value,
+            manager_id: document.getElementById("updateManagerId").value,
+            role_id: document.getElementById("updateRoleId").value,
+            password_hash: document.getElementById("updatePassword").value,
+          };
 
-        const response = await fetch(`${baseUrl}/employees/${employeeId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
+          const response = await fetch(`${baseUrl}/employees/${employeeId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
 
-        const result = await response.json();
-        displayResponse("updateResponse", result);
+          const result = await handleResponse(response);
+          displayResponse("updateResponse", result);
+        } catch (error) {
+          displayResponse("updateResponse", { error: error.message });
+        }
       }
 
       // Delete Employee
       async function deleteEmployee() {
-        const employeeId = document.getElementById("deleteEmployeeId").value;
-        const response = await fetch(`${baseUrl}/employees/${employeeId}`, {
-          method: "DELETE",
-        });
+        try {
+          const employeeId = document.getElementById("deleteEmployeeId").value;
+          const response = await fetch(`${baseUrl}/employees/${employeeId}`, {
+            method: "DELETE",
+          });
 
-        const result = await response.json();
-        displayResponse("deleteResponse", result);
+          const result = await handleResponse(response);
+          displayResponse("deleteResponse", result);
+        } catch (error) {
+          displayResponse("deleteResponse", { error: error.message });
+        }
       }
 
       // Get All Employees
       async function getAllEmployees() {
-        const response = await fetch(`${baseUrl}/employees`);
-        const result = await response.json();
-        displayResponse("getAllResponse", result);
+        try {
+          const response = await fetch(`${baseUrl}/employees`);
+          const result = await handleResponse(response);
+          displayResponse("getAllResponse", result);
+        } catch (error) {
+          displayResponse("getAllResponse", { error: error.message });
+        }
       }
     </script>
   </body>
