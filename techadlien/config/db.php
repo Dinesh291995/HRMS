@@ -9,8 +9,10 @@ $password = 'qwer#asd#zxc#99';
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected to the database successfully!";
 } catch (PDOException $e) {
-    die("Could not connect to the database: " . $e->getMessage());
+    error_log("Database connection failed: " . $e->getMessage());
+    die("Could not connect to the database. Please check the logs for more details.");
 }
 
 return $pdo;
