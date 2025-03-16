@@ -1,5 +1,4 @@
 <?php
-
 class Employee {
     private $pdo;
 
@@ -13,7 +12,7 @@ class Employee {
         $stmt = $this->pdo->query($sql);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $nextId = $result['max_id'] ? $result['max_id'] + 1 : 1;
-        return $prefix . str_pad($nextId, 6, '0', STR_PAD_LEFT); // Example: TAD000001
+        return $prefix . str_pad($nextId, 6, '0', STR_PAD_LEFT);
     }
 
     public function create($data) {
